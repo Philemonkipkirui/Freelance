@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom Tailwind theme extensions for consistent naming */
+    @layer base {
+      :root {
+        --color-deep-navy: #0F172A;
+        --color-slate-navy: #1E293B;
+        --color-muted-gray: #94A3B8;
+        --color-hover: #273449;
+      }
+    }
+  </style>
+  <title>Dashboard Template</title>
+</head>
+<body class="bg-[var(--color-deep-navy)] text-white h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="sticky top-0 bg-[var(--color-deep-navy)] shadow-md z-5 flex items-center justify-between px-4 h-14 flex-shrink-0">
+    <div class="flex items-center">
+      <img src="static\image\logo.svg" alt="Site Logo" class="h-8 w-auto">
+      <span class="ml-4 text-lg font-bold">Wework</span>
+    </div>
+    <div class="flex flex-1 justify-center px-4">
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        class="w-full max-w-xs bg-white text-black rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover)]"
+      >
+    </div>
+    <button class="py-1 px-3 rounded-lg hover:bg-[var(--color-hover)] transition-colors">
+      Sign Out
+    </button>
+  </nav>
+
+  <!-- Main Container: Sidebar + Profile + Content -->
+  <div class="flex flex-1 overflow-hidden min-h-0">
+    <!-- Sidebar on the left -->
+    <aside class="w-64 bg-[var(--color-slate-navy)] p-4 flex flex-col border-r border-gray-700 h-full overflow-auto flex-shrink-0">
+      <ul class="flex flex-col space-y-3 mt-2">
+        <li>
+          <button class="w-full text-left py-2 px-4 rounded-2xl border border-[var(--color-muted-gray)] hover:border-white hover:bg-[var(--color-hover)] transition-colors text-white text-lg">
+            Home
+          </button>
+        </li>
+        <li>
+          <button class="w-full text-left py-2 px-4 rounded-2xl border border-[var(--color-muted-gray)] hover:border-white hover:bg-[var(--color-hover)] transition-colors text-white text-lg">
+            Tasks
+          </button>
+        </li>
+        <li>
+          <button class="w-full text-left py-2 px-4 rounded-2xl border border-[var(--color-muted-gray)] hover:border-white hover:bg-[var(--color-hover)] transition-colors text-white text-lg">
+            Reports
+          </button>
+        </li>
+        <li>
+          <button class="w-full text-left py-2 px-4 rounded-2xl border border-[var(--color-muted-gray)] hover:border-white hover:bg-[var(--color-hover)] transition-colors text-white text-lg">
+            Finances
+          </button>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Section: Profile on top, then content -->
+    <main class="flex-1 flex flex-col overflow-auto min-h-0">
+      <!-- Profile Section -->
+      <section class="w-full bg-[var(--color-slate-navy)] p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left border-b border-gray-700 flex-shrink-0">
+        <div class="flex justify-center md:justify-start">
+          <img src="static\image\Home.jpeg" alt="Profile" class="rounded-full w-20 h-20 object-cover">
+        </div>
+        <div class="flex flex-col justify-center">
+          <h2 class="text-xl font-semibold">John Doe</h2>
+          <p class="text-[var(--color-muted-gray)]">johndoe@example.com</p>
+          <p class="text-[var(--color-muted-gray)]">+254 712 345 678</p>
+        </div>
+        <div class="flex flex-col justify-center">
+          <h3 class="text-lg font-medium">Profession</h3>
+          <p class="text-[var(--color-muted-gray)]">Data Scientist</p>
+        </div>
+      </section>
+      
+ 
+      <div class="p-6 flex-1 overflow-auto">
+        {%block main_content%}{%endblock%}  
+      </div>
+      
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-[var(--color-deep-navy)] p-4 text-center border-t border-gray-700 flex-shrink-0">
+    <div class="space-x-4 mb-2">
+      <a href="#" class="hover:text-white text-[var(--color-muted-gray)] transition-colors">Twitter</a>
+      <a href="#" class="hover:text-white text-[var(--color-muted-gray)] transition-colors">LinkedIn</a>
+      <a href="#" class="hover:text-white text-[var(--color-muted-gray)] transition-colors">GitHub</a>
+    </div>
+    <div>
+      <a href="#" class="text-[var(--color-muted-gray)] hover:text-white transition-colors">Terms & Conditions</a>
+    </div>
+  </footer>
+</body>
+</html>

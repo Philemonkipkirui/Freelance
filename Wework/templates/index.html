@@ -1,0 +1,114 @@
+
+{% extends 'Base.html' %}
+{%load static %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block main_content %}
+
+<!-- Trigger Button -->
+<button onclick="toggleModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+  Create Task
+</button>
+
+<!-- Modal Background -->
+<div id="taskModal" class="fixed inset-0 hidden bg-white-800 bg-opacity-50 z-50 justify-center items-center">
+  <!-- Modal Content -->
+  <div class="bg-slate-800 text-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
+
+    
+    <!-- Close Button -->
+    <button onclick="toggleModal()" class="absolute top-2 right-2 text-white-600 hover:text-black text-xl">&times;</button>
+    
+    <!-- Form -->
+    <form method="POST" action="{% url 'task_info' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button type="submit" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        Save Task
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Toggle Script -->
+<script>
+  function toggleModal() {
+    const modal = document.getElementById('taskModal');
+    modal.classList.toggle('hidden');
+    modal.classList.toggle('flex');
+  }
+</script>
+
+
+
+<form id="taskFilterForm" method="get">
+  <label for="taskFilter" class="text-white font-medium">Filter Tasks:</label>
+  <select name="filter" id="taskFilter" class="px-3 py-2 rounded bg-slate-700 text-white">
+    <option value="all">All Tasks</option>
+    <option value="priority">By Priority</option>
+    <option value="due">By Due Date</option>
+
+    <option value="status">By Status</option>
+  </select>
+</form>
+
+<div id="taskCarousel" class="overflow-x-auto whitespace-nowrap space-x-4 flex pb-4">
+  {% include 'task_cards.html' %}
+</div>
+
+
+<script>
+  document.getElementById('taskFilter').addEventListener('change', function () {
+    const filter = this.value;
+
+    fetch(`/ajax_filter_tasks/?filter=${filter}`)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('taskCarousel').innerHTML = html;
+      })
+      .catch(error => console.error('AJAX Load Error:', error));
+  });
+</script>
+
+<!-- Lazy Load Script -->
+<script>
+  let isLoading = false;
+
+  function lazyLoadTasks() {
+    if (isLoading) return;
+
+    const marker = document.getElementById('load-more-marker');
+    if (!marker) return;
+
+    const rect = marker.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    if (rect.top < windowHeight + 100) {
+      const nextPage = marker.getAttribute('data-next-page');
+      const filter = document.getElementById('taskFilter').value;
+      isLoading = true;
+
+      fetch(`/ajax_filter_tasks/?filter=${filter}&page=${nextPage}`)
+        .then(res => res.text())
+        .then(html => {
+          marker.remove();  // remove the old marker
+          document.getElementById('taskCarousel').insertAdjacentHTML('beforeend', html);
+          isLoading = false;
+        })
+        .catch(err => {
+          console.error('Lazy load failed:', err);
+          isLoading = false;
+        });
+    }
+  }
+
+  window.addEventListener('scroll', lazyLoadTasks);
+</script>
+
+
+
+{% endblock %}
+
+

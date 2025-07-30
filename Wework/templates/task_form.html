@@ -1,0 +1,66 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main_content %}
+  <div class="max-w-2xl mx-auto p-6 bg-white  rounded-xl shadow-md">
+
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <!-- Title -->
+      <div class="mb-4">
+        {{ form.title.label_tag }}
+        {{ form.title.as_widget(attrs={'class': 'w-full px-4 py-2 border rounded text-black'}) }}
+        {% if form.title.errors %}
+          <p class="text-red-500 text-sm">{{ form.title.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {% if form.description.errors %}
+          <p class="text-red-500 text-sm">{{ form.decription.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        {{ form.client_name.label_tag }}
+        {{ form.client_name}}
+        {% if form.description.errors %}
+          <p class="text-red-500 text-sm">{{ form.decription.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Due Date -->
+      <div class="mb-4">
+        {{ form.due_date.label_tag }}
+        {{ form.due_date }}
+        {% if form.due_date.errors %}
+          <p class="text-red-500 text-sm">{{ form.due_date.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Priority -->
+      <div class="mb-4">
+        {{ form.priority.label_tag }}
+        {{ form.priority }}
+        {% if form.priority.errors %}
+          <p class="text-red-500 text-sm">{{ form.priority.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Status -->
+      <div class="mb-4">
+        {{ form.status.label_tag }}
+        {{ form.status }}
+        {% if form.status.errors %}
+          <p class="text-red-500 text-sm">{{ form.status.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save Task</button>
+    </form>
+  </div>
+{% endblock %}
