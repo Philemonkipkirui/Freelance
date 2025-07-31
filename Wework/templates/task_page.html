@@ -1,40 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ task.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-deep-navy: #0F172A;
+      --color-slate-navy: #1E293B;
+      --color-muted-gray: #94A3B8;
+      --color-hover: #273449;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-slate-navy);
+      color: white;
+    }
+    .bg-deep-navy { background-color: var(--color-deep-navy); }
+    .bg-slate-navy { background-color: var(--color-slate-navy); }
+    .bg-hover { background-color: var(--color-hover); }
+    .text-muted { color: var(--color-muted-gray); }
+    .text-white-important { color: white !important; }
+  </style>
+</head>
+<body class="min-h-screen">
 
+  <!-- Navbar -->
+  <nav class="bg-deep-navy py-3 px-4 flex items-center justify-center relative shadow-md">
+    <a href="{% url 'index' %}" class="absolute left-4 top-1/2 -translate-y-1/2 transform">
+      <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </a>
+    <h1 class="text-2xl font-semibold truncate max-w-[75%] text-center text-white">{{ task.title }}</h1>
+  </nav>
 
+  <!-- Task Info Section -->
+  <section class="max-w-4xl mx-auto mt-6 bg-deep-navy rounded-xl shadow-lg p-6 flex items-start justify-between">
+    <!-- Task Details -->
+    <div class="space-y-3">
+      
+      <p><span class="font-semibold">Priority:</span> {{ task.priority }}</p>
+      <p><span class="font-semibold">Due Date:</span> {{ task.due_date }}</p>
+      <p><span class="font-semibold">Status:</span> {{ task.status }}</p>
+      <p><span class="font-semibold">Description:</span> {{ task.description }}</p>
+    </div>
 
-{% block content %}
-<nav class="bg-black text-white relative shadow-md py-2 px-4 flex items-center justify-center">
-  <!-- Back Arrow (left) -->
-  <a href="{% url 'index' %}" class="absolute left-4 top-1/2 transform -translate-y-1/2">
-    <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-         xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-  </a>
+    <!-- Completion Counter -->
+    <div class="flex flex-col items-center space-y-2">
+      <label for="progress" class="text-sm font-semibold text-muted">Completion</label>
+      <input id="progress" type="range" min="0" max="100" value="0"
+             class="w-32 h-2 rounded-lg appearance-none cursor-pointer bg-slate-700 accent-blue-500"
+             oninput="updateValue(this.value)">
+      <span id="progressValue" class="text-sm text-blue-400 font-semibold">0%</span>
+    </div>
+  </section>
 
-  <!-- Title (centered) -->
-  <h1 class="text-sm font-semibold truncate max-w-xs text-center">
-    {{ task.title }}
-  </h1>
-</nav>
+  <!-- AI Assistant Section (Full Width) -->
+  <section class="w-full mt-6 bg-hover p-6 shadow-inner">
+    <div class="max-w-7xl mx-auto">
+      <h3 class="text-xl font-semibold text-white mb-2">AI Assistant</h3>
+      <p class="text-muted text-sm">This assistant will help you manage, edit, or analyze the task based on its context. More capabilities will be added here.</p>
+    </div>
+  </section>
 
+  <!-- Progress update script -->
+  <script>
+    function updateValue(val) {
+      document.getElementById('progressValue').innerText = val + '%';
+    }
+  </script>
 
-
-
-<div class="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow text-black">
-  <h1 class="text-2xl font-bold mb-4">{{ task.title }}</h1>
-
-  <p><strong>Priority:</strong> <b>{{ task.priority }}</b></p>
-  <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-  <p><strong>Status:</strong> {{ task.status }}</p>
-  <p><strong>Description:</strong> {{ task.description }}</p>
-
-  <!-- Placeholder for AI assistant -->
-  <div class="mt-6 border-t pt-4">
-    <h2 class="text-xl font-semibold mb-2">AI Assistant</h2>
-    <p class="text-sm text-gray-600">This section will allow chat-based task execution support.</p>
-    <!-- Later insert a chat interface here -->
-  </div>
-</div>
-{% endblock %}
-
-
+</body>
+</html>
