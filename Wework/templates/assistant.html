@@ -1,0 +1,38 @@
+{%extends "task_page.html"%}
+{% load static %}
+
+{% block content %}
+
+
+    <div class="mt-6 w-full">
+    <textarea id="ai-input" placeholder="Ask the AI assistant..." class="w-full p-3 rounded bg-gray-800 text-white"></textarea>
+    <button onclick="submitPrompt()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        Ask Assistant
+    </button>
+    <div id="ai-response" class="mt-4 text-white"></div>
+    </div>
+
+<script>
+function submitPrompt() {
+    const prompt = document.getElementById('ai-input').value;
+
+    fetch("/generate_content/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            
+        },
+        body: JSON.stringify({ prompt })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('ai-response').innerText = data.generatedText || data.error;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('ai-response').innerText = "An error occurred while communicating with the assistant.";
+    });
+}
+</script>
+
+{% endblock content %}
